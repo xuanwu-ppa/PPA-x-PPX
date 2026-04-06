@@ -1,0 +1,38 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Deploy to Production
+        # 這裡需要替換成您的實際部署方式，例如 Render, Vercel, Heroku 或 VPS 部署
+        # 以下是透過 Webhook 觸發 Render 自動部署的範例：
+        # env:
+        #   deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        # run: |
+        #   curl "$deploy_url"
+        run: echo "建置完成！環境目前未設定對接的主機，請至此步驟加入實際部署指令或 webhook。"
